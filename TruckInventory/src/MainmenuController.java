@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javax.swing.JFrame;
 import truckinventory.ShowInventory;
+import truckinventory.AddInventory;
 
 
 /**
@@ -46,7 +47,9 @@ public class MainmenuController implements Initializable {
     // Add item button handler
     @FXML private Button btnAdd;
     public void handleBtnAdd(ActionEvent event) {
-        btnAdd.setVisible(false); // delete this
+        AddInventory newItem = new AddInventory();
+    	newItem.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        //btnShow.setVisible(false); // delete this
     }
     
     // Remove Item Button handler
