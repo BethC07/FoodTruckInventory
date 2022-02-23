@@ -1,0 +1,3 @@
+Milk,4
+Bread,7
+Chicken,9
