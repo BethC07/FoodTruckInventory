@@ -111,6 +111,8 @@ public class ShowInventory extends JFrame {
     	}
         
         messageArea.setText(message);
+        // make sure the text area is not editable
+        messageArea.setEditable(false);
         
     }
 
