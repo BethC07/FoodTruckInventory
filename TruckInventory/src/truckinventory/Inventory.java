@@ -9,30 +9,42 @@ package truckinventory;
  * @author nuria
  */
 public class Inventory {
-    private String item, quantity;
+    private String item, restockDate;
+    private int quantity, restockThreshold;
 	
-	
-	
-	public Inventory(String item, String quantity) {
+	public Inventory(String item, int quantity, int restockThreshold, String restockDate) {
 	this.item = item;
 	this.quantity = quantity;
+        this.restockThreshold = restockThreshold;
+        this.restockDate = restockDate;
 	}
-        
-	//
+    //
     //Get Methods
     //
     public String getItem() {
         return item;
     }
     
-    public String getQuantity() {
+    public int getQuantity() {
         return quantity;
+    }
+    
+    public int getRestockThreshold() {
+        return quantity;
+    }
+    
+    public String getRestockDate() {
+        return item;
     }
     
     @Override
     public String toString() {
-        String outStr = "Item: " + item + "       Quantity: "+ quantity;
+        String outStr = "Item: " + item+ 
+                " || Quantity: "+ quantity+ 
+                " ||  " + restockThreshold+
+                " ||  " + restockDate; 
         return outStr;
     }
+    
 }
 

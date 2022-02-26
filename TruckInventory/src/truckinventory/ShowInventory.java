@@ -15,7 +15,8 @@ import java.io.*;
 public class ShowInventory extends JFrame {
     private JTextArea messageArea;
     private Container contents;
-    private String item, quantity, message;
+    private String item, restockDate, message;
+    private int quantity, restockThreshold;
     private Scanner file;
     
     ArrayList<Inventory> SupplyList = new ArrayList<>( );
@@ -57,7 +58,25 @@ public class ShowInventory extends JFrame {
         //
         setVisible(true);
         
-        try{
+        SupplyList = readData();
+        
+        message = "\n";
+        
+        Inventory rInventory = null;
+        for ( int ct=0; ct<SupplyList.size();  ct++) {
+            rInventory = SupplyList.get(ct);
+    	    message = message + "\n"+rInventory.toString();
+    	    		
+    	}
+        
+        messageArea.setText(message);
+        // make sure the text area is not editable
+        messageArea.setEditable(false);
+        
+    }
+
+   public ArrayList readData(){
+       try{
 	        
             file = new Scanner( new File ( "Inventory.txt" ) );   //insert file path       
 	    while ( file.hasNext( ) ) // test for the end of the file
@@ -72,10 +91,12 @@ public class ShowInventory extends JFrame {
 	             // process the line read
 	            StringTokenizer st = new StringTokenizer( stringRead, "," );
 	            item = st.nextToken( );
-	            quantity = st.nextToken( );
+	            quantity = Integer.parseInt(st.nextToken( ));
+                    restockThreshold = Integer.parseInt(st.nextToken( ));
+                    restockDate = st.nextToken( );
 	            try {
 
-	                Inventory supply = new Inventory(item, quantity);
+	                Inventory supply = new Inventory(item, quantity, restockThreshold, restockDate);
 
 	                SupplyList.add(supply);
 	            }//End Second Try{}
@@ -101,20 +122,7 @@ public class ShowInventory extends JFrame {
 	       // Release resources associated with books.txt
 	          file.close( ); 	      
 	        }
-        message = "\n";
-        
-        Inventory rInventory = null;
-        for ( int ct=0; ct<SupplyList.size();  ct++) {
-            rInventory = SupplyList.get(ct);
-    	    message = message + "\n"+rInventory.toString();
-    	    		
-    	}
-        
-        messageArea.setText(message);
-        // make sure the text area is not editable
-        messageArea.setEditable(false);
-        
-    }
-
+       return SupplyList;
+   }
             
 }
