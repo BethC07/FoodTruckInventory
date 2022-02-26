@@ -1,3 +1,4 @@
-Milk,4
-Bread,7
-Chicken,9
+Milk,4,1,placeDate
+Bread,7,2,placeDate
+Chicken,9,2,placeDate
+Fort,3,10,placeDate
