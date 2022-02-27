@@ -37,6 +37,23 @@ public class Inventory {
         return restockDate;
     }
     
+    // Set methods
+    public void setItem(String name){
+        this.item = name;
+    }
+    
+    public void setQuantity(int quantity){
+        this.quantity = quantity;
+    }
+    
+    public void setRestockThreshold(int threshold){
+        this.restockThreshold = threshold;
+    }
+    
+    public void setRestockDate(String restockDate){
+        this.restockDate = restockDate;
+    }
+    
     @Override
     public String toString() {
         String outStr = "Item: " + item+ 
@@ -45,6 +62,4 @@ public class Inventory {
                 " ||  " + restockDate; 
         return outStr;
     }
-    
 }
-
