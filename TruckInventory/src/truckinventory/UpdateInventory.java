@@ -14,16 +14,21 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.StringTokenizer;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author beth
  */
-public class UpdateInventory {
+public class UpdateInventory extends JFrame{
     
     ArrayList<Inventory> SupplyList = new ArrayList<>( );
     String message;
+    
+    public UpdateInventory(){
+        // need to add functionality to update any inventory item
+    }
     
     public void restock(Inventory item, String ogInfo){
         item.setQuantity(50);
