@@ -58,8 +58,8 @@ public class Inventory {
     public String toString() {
         String outStr = "Item: " + item+ 
                 " || Quantity: "+ quantity+ 
-                " ||  " + restockThreshold+
-                " ||  " + restockDate; 
+                " || Restock Threshold: " + restockThreshold+
+                " || Last Restock: " + restockDate; 
         return outStr;
     }
 }
