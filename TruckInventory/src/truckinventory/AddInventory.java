@@ -25,6 +25,7 @@ public class AddInventory extends JFrame{
     
     ArrayList<Inventory> SupplyList = new ArrayList<>( );
     
+    
     public AddInventory(){
         frame = new JFrame();
 	// Create text fields, labels and submit button for user to enter the new item data
@@ -83,15 +84,21 @@ public class AddInventory extends JFrame{
                         int currentQuantityNumb = Integer.parseInt(currentQuantity.getText());
                         int restockThresholdNumb = Integer.parseInt(restockThreshold.getText());
                         
-                        // append new item to the inventory.txt file if both checks pass
+                        // add new item to the Inventory array list 
+                        // and append new item to the inventory.txt file if both checks pass
                         FileWriter fw = null; 
                         BufferedWriter bw = null; 
                         PrintWriter pw = null; 
-                        try { 
+                        try {
+                            // add new item to the Inventory array list
+                            Inventory newItem = new Inventory(name.getText(), currentQuantityNumb, restockThresholdNumb, "");
+                            SupplyList.add(newItem);
+                            
+                            // append to file
                             fw = new FileWriter("Inventory.txt", true); 
                             bw = new BufferedWriter(fw); 
                             pw = new PrintWriter(bw);
-                            pw.println(name.getText() + "," + currentQuantity.getText() + "," + restockThreshold.getText());
+                            pw.println(name.getText() + "," + currentQuantity.getText() + "," + restockThreshold.getText() + "," + "NA");
                             message = "New item '" + name.getText() + "' was successfully added to your truck's inventory";
                             JOptionPane.showMessageDialog(null, message);
                             pw.flush();
