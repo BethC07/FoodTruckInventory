@@ -32,12 +32,12 @@ public class ShowRestockNotification extends JFrame{
         for (int count =0; count < SupplyList.size();  count++) {
             tempInventory = SupplyList.get(count);
             if (tempInventory.getQuantity() < tempInventory.getRestockThreshold()){
-                displayNotice(tempInventory.getItem(), tempInventory.getQuantity(), tempInventory.getRestockThreshold());
+                displayNotice(tempInventory);
             }	
     	}
     }
     
-    public void displayNotice(String itemName, int itemQuantity, int restockThreshold ){
+    public void displayNotice(Inventory item){
         JFrame frame;
         JLabel nameL, currentQuantityL, restockThresholdL;
         JButton acceptB, ignoreB;
@@ -46,16 +46,16 @@ public class ShowRestockNotification extends JFrame{
     
         frame = new JFrame();
 	// Create text fields, labels and submit button for user to enter the new item data
-	nameL = new JLabel("This item has a low stock: " + itemName);
-        currentQuantityL = new JLabel("Quantity on hand: " + itemQuantity);
-        restockThresholdL = new JLabel("Restock Threshold: " + restockThreshold );
+	nameL = new JLabel("This item has a low stock: " + item.getItem());
+        currentQuantityL = new JLabel("Quantity on hand: " + item.getQuantity());
+        restockThresholdL = new JLabel("Restock Threshold: " + item.getRestockThreshold());
         acceptB = new JButton("Restock");
         ignoreB = new JButton("Ignore");
         
         // puts passes values on to the actionlistener
-        acceptB.putClientProperty("name", itemName);
-        acceptB.putClientProperty("quantity", itemQuantity);
-        acceptB.putClientProperty("restock", restockThreshold);
+        acceptB.putClientProperty("name", item.getItem());
+        acceptB.putClientProperty("quantity", item.getQuantity());
+        acceptB.putClientProperty("restock", item.getRestockThreshold());
         
 	contents = frame.getContentPane();
         
@@ -96,8 +96,10 @@ public class ShowRestockNotification extends JFrame{
                 quantity = ((Integer)((JButton)acceptB).getClientProperty( "quantity" ));
                 restockThreshold = ((Integer)((JButton)acceptB).getClientProperty( "restock" ));
                 try {
-                    // ***** add restock oepration here
-                    message = "Item '" + itemName + "' was successfully added to your truck's inventory";
+                    String ogItemInfo = item.getItem() + "," + item.getQuantity() + "," + item.getRestockThreshold() + "," + item.getRestockDate();
+                    UpdateInventory updateItem = new UpdateInventory();
+                    updateItem.restock(item, ogItemInfo);
+                    message = "Item '" + itemName + "' was successfully restocked to " + item.getQuantity();
                     JOptionPane.showMessageDialog(null, message);
                     frame.dispose();
                 }
