@@ -13,7 +13,7 @@ import javafx.scene.control.Button;
 import javax.swing.JFrame;
 import truckinventory.ShowInventory;
 import truckinventory.AddInventory;
-
+import truckinventory.UpdateInventory;
 
 /**
  * FXML Controller class
@@ -40,7 +40,8 @@ public class MainmenuController implements Initializable {
     // Modify Inventory button handler
     @FXML private Button btnMod;
     public void handleBtnMod(ActionEvent event) {
-        btnMod.setVisible(false); // delete this
+        UpdateInventory updateItem = new UpdateInventory();
+        updateItem.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
     
     // Add item button handler
