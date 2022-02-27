@@ -14,7 +14,6 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.embed.swing.JFXPanel;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -42,7 +41,7 @@ public class TruckInventory extends Application {
     @Override
     public void start(Stage primaryStage) {
         // sets up panel, labels and buttons for main login screen
-        //JFXPanel jfxPanel = new JFXPanel();
+        ShowRestockNotification checkRestock = new ShowRestockNotification();
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
@@ -80,6 +79,7 @@ public class TruckInventory extends Application {
                     // starts main menu
                     InputClass main = new InputClass();
                     try {
+                        checkRestock.checkStock();
                         primaryStage.setScene(main.createMainMenu(primaryStage));
                         primaryStage.show();
                     } catch (IOException ex) {
