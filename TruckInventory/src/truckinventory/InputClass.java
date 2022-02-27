@@ -10,10 +10,6 @@ import java.net.URL;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.layout.Pane;
-
-
 /**
  *
  * @author vjsat

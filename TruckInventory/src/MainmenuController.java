@@ -35,7 +35,6 @@ public class MainmenuController implements Initializable {
     public void handleBtnShow(ActionEvent event) {
         ShowInventory InventoryWindow = new ShowInventory();
     	InventoryWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        //btnShow.setVisible(false); // delete this 
     }
     
     // Modify Inventory button handler
@@ -49,7 +48,6 @@ public class MainmenuController implements Initializable {
     public void handleBtnAdd(ActionEvent event) {
         AddInventory newItem = new AddInventory();
     	newItem.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        //btnShow.setVisible(false); // delete this
     }
     
     // Remove Item Button handler

@@ -30,11 +30,11 @@ public class Inventory {
     }
     
     public int getRestockThreshold() {
-        return quantity;
+        return restockThreshold;
     }
     
     public String getRestockDate() {
-        return item;
+        return restockDate;
     }
     
     @Override

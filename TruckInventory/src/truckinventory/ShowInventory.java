@@ -74,8 +74,12 @@ public class ShowInventory extends JFrame {
         messageArea.setEditable(false);
         
     }
-
-   public ArrayList readData(){
+    
+   public static ArrayList readData(){
+       ArrayList<Inventory> TempList = new ArrayList<>( );
+       Scanner file = null;
+       String item, restockDate, message;
+       int quantity, restockThreshold;
        try{
 	        
             file = new Scanner( new File ( "Inventory.txt" ) );   //insert file path       
@@ -97,8 +101,7 @@ public class ShowInventory extends JFrame {
 	            try {
 
 	                Inventory supply = new Inventory(item, quantity, restockThreshold, restockDate);
-
-	                SupplyList.add(supply);
+	                TempList.add(supply);
 	            }//End Second Try{}
 	            //
 	            //Catch Numeric DataType Error
@@ -122,7 +125,7 @@ public class ShowInventory extends JFrame {
 	       // Release resources associated with books.txt
 	          file.close( ); 	      
 	        }
-       return SupplyList;
+       return TempList;
    }
             
 }
