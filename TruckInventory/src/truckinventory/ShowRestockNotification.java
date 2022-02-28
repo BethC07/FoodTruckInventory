@@ -97,7 +97,7 @@ public class ShowRestockNotification extends JFrame{
                 restockThreshold = ((Integer)((JButton)acceptB).getClientProperty( "restock" ));
                 try {
                     String ogItemInfo = item.getItem() + "," + item.getQuantity() + "," + item.getRestockThreshold() + "," + item.getRestockDate();
-                    UpdateInventory updateItem = new UpdateInventory();
+                    RestockInventory updateItem = new RestockInventory();
                     updateItem.restock(item, ogItemInfo);
                     message = "Item '" + itemName + "' was successfully restocked to " + item.getQuantity();
                     JOptionPane.showMessageDialog(null, message);
