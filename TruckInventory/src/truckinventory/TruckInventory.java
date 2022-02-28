@@ -4,8 +4,11 @@
  */
 package truckinventory;
 
+import java.io.BufferedReader;
 import javafx.application.Application;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -121,12 +124,29 @@ public class TruckInventory extends Application {
         launch(args);
     }
    
-        // verifies input username and password
+    // verifies input username and password from file
     public boolean authenticate(String user, String pword) {
         boolean isValid = false;
-        if (user.equalsIgnoreCase("admin")
-                && pword.equals("1234")) {
-            isValid = true;
+        BufferedReader bufferedReader;
+        String filePath = "logindata.txt";
+        // attempts to open file containing login data
+        try {
+            bufferedReader = new BufferedReader(new FileReader(filePath));
+            String line;
+           
+            while((line = bufferedReader.readLine()) != null) {
+                String[] splitData = line.split(",");// splits lin into user/pass
+                if (user.equals(splitData[0]) && pword.equals(splitData[1])) {
+                    isValid = true;
+                    break;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            String msg = "Error opening username file";
+            logData(msg);
+        } catch (IOException ex) {
+            String msg = "Error opening username file";
+            logData(msg);
         }
         return isValid;
     }
