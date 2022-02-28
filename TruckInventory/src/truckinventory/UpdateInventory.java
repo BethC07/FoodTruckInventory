@@ -133,7 +133,12 @@ public class UpdateInventory extends JFrame{
                         currentName.setText(tempInventory.getItem());
                         currentQuantity.setText(String.valueOf(tempInventory.getQuantity()));
                         currentRestockThreshold.setText(String.valueOf(tempInventory.getRestockThreshold()));
-                     }	
+                    }
+                    else if(currentOption == ""){
+                        currentName.setText("");
+                        currentQuantity.setText("");
+                        currentRestockThreshold.setText("");
+                    }
                  }
             }
         });
@@ -141,13 +146,19 @@ public class UpdateInventory extends JFrame{
         submit.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent ae) {
+               // check if an item was selected to be updated
+               if(currentOption == "") {
+                    message = "Please select an item to update from the dropdown to submit";
+                    JOptionPane.showMessageDialog(null, message);
+               }
                // check if all the fields are populated
-               if((newName.getText() == null || newName.getText().length() == 0) && 
+               else if((newName.getText() == null || newName.getText().length() == 0) && 
                        (newQuantity.getText() == null || newQuantity.getText().length() == 0) && 
                        (newRestockThreshold.getText() == null || newRestockThreshold.getText().length() == 0)) {
                    message = "Please fill out at least one field to submit an update to an item";
                    JOptionPane.showMessageDialog(null, message);
                }
+               
                // check if the quantity and restock threshold are numeric values
                else{
                    try{
