@@ -17,11 +17,13 @@ import java.io.*;
  */
 public class RemoveInventory extends JFrame{
     private JFrame frame;
-    private JTextField name;
+    //private JTextField name;
+    private JComboBox items;
+    private String[] itemOptions;
     private JLabel nameL;
     private JButton submit;
     private Container contents;
-    private String message;
+    private String currentOption, message, newSelection;
     private Scanner file;
     
     ArrayList<Inventory> SupplyList = new ArrayList<>( );
@@ -30,10 +32,24 @@ public class RemoveInventory extends JFrame{
         SupplyList = ShowInventory.readData();
         
         
-        frame = new JFrame("Add Inventory Item");
+        frame = new JFrame("Remove Inventory Item");
 	// Create text fields, labels and submit button for user to enter the new item data
-	name = new JTextField();
-        nameL = new JLabel("Name: ");
+	//name = new JTextField();
+        // Create a dropdown field to select from the existing items
+        SupplyList = ShowInventory.readData();
+        Inventory rInventory = null;
+        itemOptions = new String[SupplyList.size()+1];
+        itemOptions[0] = "";
+        for (int ct = 0; ct < SupplyList.size();  ct++) {
+            rInventory = SupplyList.get(ct);
+    	    itemOptions[ct+1] = rInventory.getItem();
+    	}
+        currentOption = itemOptions[0];
+        
+        items = new JComboBox(itemOptions);
+        items.setEditable(false);
+        
+        nameL = new JLabel("Item to remove: ");
         submit = new JButton("Submit");
         
 	contents = getContentPane();
@@ -45,7 +61,8 @@ public class RemoveInventory extends JFrame{
         JPanel p1 = new JPanel();
 	p1.setLayout(new GridLayout(3,2));	 
 	p1.add(nameL);
-        p1.add(name);
+        p1.add(items);
+        //p1.add(name);
         
         // Create panel 2 for the submit button
         JPanel p2 = new JPanel();
@@ -63,19 +80,26 @@ public class RemoveInventory extends JFrame{
         // Show Frame
         frame.setVisible(true);
         
+        items.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox cb = (JComboBox)e.getSource();
+                newSelection = (String)cb.getSelectedItem();
+                currentOption = newSelection;
+            }
+        });
+        
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 // check if all the fields are populated
-                if(name.getText() == null || name.getText().length() == 0) {
-                    message = "Please fill out name field to remove item";
+                if(currentOption == "") {
+                    message = "Please select an item to remove from the dropdown to submit";
                     JOptionPane.showMessageDialog(null, message);
                 }
                 // check if the quantity and restock threshold are numeric values
                 else{
-                    //int currentQuantityNumb = Integer.parseInt(currentQuantity.getText());
-                    //int restockThresholdNumb = Integer.parseInt(restockThreshold.getText());
-                    String rName = name.getText();
+                    String rName = newSelection;
                     Inventory tempInventory = null;
                     FileWriter fw = null; 
                     BufferedWriter bw = null; 
@@ -85,7 +109,8 @@ public class RemoveInventory extends JFrame{
                         tempInventory = SupplyList.get(ct);
                         if(tempInventory.getItem().equalsIgnoreCase(rName)){
                             SupplyList.remove(ct);
-                            message = "Item was removed from the inventory.";
+                            message = "The item '" + rName + "' was successfully removed from the inventory.";
+                            //message = "Item was removed from the inventory.";
                         
                             try{
                                 fw = new FileWriter("Inventory.txt", false); 
@@ -99,8 +124,8 @@ public class RemoveInventory extends JFrame{
                                     wItem = wSupply.getItem();
                                     wQuantity = wSupply.getQuantity();
                                     wRestockThreshold = wSupply.getRestockThreshold();
-                                    wRestockDate = wSupply.getRestockDate();                           			  
-                                    pw.print(wItem + "," + wQuantity + "," + wRestockThreshold + "," + "NA" + "\n");
+                                    wRestockDate = wSupply.getRestockDate();                                     
+                                    pw.print(wItem + "," + wQuantity + "," + wRestockThreshold + "," + wRestockDate + "\n");
                                 }  
                                 pw.close();
                                 JOptionPane.showMessageDialog( null, message);
