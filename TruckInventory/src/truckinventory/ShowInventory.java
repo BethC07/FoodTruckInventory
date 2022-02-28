@@ -13,6 +13,7 @@ import java.io.*;
  * @author nuria
  */
 public class ShowInventory extends JFrame {
+    private JFrame frame;
     private JTextArea messageArea;
     private Container contents;
     private String item, restockDate, message;
@@ -22,6 +23,7 @@ public class ShowInventory extends JFrame {
     ArrayList<Inventory> SupplyList = new ArrayList<>( );
     
     public ShowInventory(){
+        frame = new JFrame("Current Inventory");
         //
 	// Create Message Area
 	//
@@ -29,10 +31,10 @@ public class ShowInventory extends JFrame {
 	messageArea.setFont(new Font("Serif", Font.ITALIC, 16));
 	//messageArea.setLineWrap(true);
 	//messageArea.setWrapStyleWord(true);
-	//messageArea.setPreferredSize(new Dimension(400, 200));
+	//messageArea.setPreferredSize(new Dimension(600, 200));
 	JScrollPane scrollPane = new JScrollPane(messageArea);    
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);	
-        scrollPane.setPreferredSize(new Dimension(400,200));    
+        scrollPane.setPreferredSize(new Dimension(600,200));    
         //
 	// Create get Content Pane holder
 	//
@@ -52,11 +54,18 @@ public class ShowInventory extends JFrame {
 	//
         contents.add (p1, BorderLayout.CENTER);
         
-        setSize(425, 400);
+        //setSize(700, 400);
         //
         // Show Frame
         //
-        setVisible(true);
+        //setVisible(true);
+        
+        frame.setContentPane(contents);
+        frame.pack();
+        frame.setSize(700, 300);
+
+        // Show Frame
+        frame.setVisible(true);
         
         SupplyList = readData();
         
