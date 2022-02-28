@@ -112,7 +112,7 @@ public class TruckInventory extends Application {
                 
         Scene scene = new Scene(grid, 500, 400);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Login Form");
+        primaryStage.setTitle("Food Truck Inventory Application");
         primaryStage.sizeToScene(); 
         primaryStage.show();
     }
