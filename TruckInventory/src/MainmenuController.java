@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import truckinventory.ShowInventory;
 import truckinventory.AddInventory;
 import truckinventory.UpdateInventory;
+import truckinventory.RemoveInventory;
 
 /**
  * FXML Controller class
@@ -54,7 +55,8 @@ public class MainmenuController implements Initializable {
     // Remove Item Button handler
     @FXML private Button btnRemove;
     public void handleBtnRemove(ActionEvent event) {
-        btnRemove.setVisible(false); // delete this
+        RemoveInventory removeItem = new RemoveInventory();
+        removeItem.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
     
     // Exit button handler
