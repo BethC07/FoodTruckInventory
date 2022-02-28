@@ -27,7 +27,7 @@ public class AddInventory extends JFrame{
     
     
     public AddInventory(){
-        frame = new JFrame();
+        frame = new JFrame("Add Inventory Item");
 	// Create text fields, labels and submit button for user to enter the new item data
 	name = new JTextField();
         currentQuantity = new JTextField();
