@@ -78,12 +78,25 @@ public class AddInventory extends JFrame{
                     message = "Please fill out all the fields to submit a new item";
                     JOptionPane.showMessageDialog(null, message);
                 }
+                // check if the item entered already exists in the inventory
+                SupplyList = ShowInventory.readData();
+                Inventory tempInventory = null;
+                String allItems = "";
+                for ( int ct = 0; ct < SupplyList.size(); ct++) {
+                    tempInventory = SupplyList.get(ct);
+                    allItems += tempInventory.getItem().toLowerCase() + ",";
+                }
+                if(allItems.contains(name.getText().toLowerCase()) && name.getText().length() != 0){
+                    message = "The item '" + name.getText() + "' already exists in the inventory.\n"
+                            + "Please go back to the main menu and select 'Modify Inventory' if you wish to update this item.";
+                    JOptionPane.showMessageDialog(null, message);
+                }
                 // check if the quantity and restock threshold are numeric values
-                else{
+                else if(name.getText().length() != 0){
                     try{
                         int currentQuantityNumb = Integer.parseInt(currentQuantity.getText());
                         int restockThresholdNumb = Integer.parseInt(restockThreshold.getText());
-                        
+
                         // add new item to the Inventory array list 
                         // and append new item to the inventory.txt file if both checks pass
                         FileWriter fw = null; 
@@ -93,7 +106,7 @@ public class AddInventory extends JFrame{
                             // add new item to the Inventory array list
                             Inventory newItem = new Inventory(name.getText(), currentQuantityNumb, restockThresholdNumb, "");
                             SupplyList.add(newItem);
-                            
+
                             // append to file
                             fw = new FileWriter("Inventory.txt", true); 
                             bw = new BufferedWriter(fw); 
