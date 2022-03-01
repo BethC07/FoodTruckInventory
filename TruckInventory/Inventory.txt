@@ -1,4 +1,18 @@
-Milk,4,1,NA
-Bread,7,10,NA
-Chicken,9,2,NA
-Fork,3,10,NA
+Tortilla wrap,100,20,NA
+Hard shells,100,20,NA
+Chicken thighs,3,5,NA
+Ground beef,20,5,NA
+Mexican shredded cheese blend,10,2,NA
+Shredded lettuce,15,5,NA
+Sour cream,5,2,NA
+Avacado,15,5,NA
+Tomato,30,10,NA
+Hot sauce packets,200,50,NA
+Paper food tray,300,50,NA
+Plastic cutlery,300,50,NA
+Napkins,300,50,NA
+Water,300,100,NA
+Watermelon lemonade,3,10,NA
+Lemonade,25,10,NA
+Sweet tea,15,10,NA
+Unsweet tea,20,10,NA
