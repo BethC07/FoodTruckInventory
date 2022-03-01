@@ -20,8 +20,8 @@ public class RestockInventory {
     
     String message;
     
-    public void restock(Inventory item, String ogInfo){
-        item.setQuantity(50);
+    public void restock(Inventory item, String ogInfo, int restockValue){
+        item.setQuantity(restockValue);
         updateTime(item, ogInfo);
     }
     
