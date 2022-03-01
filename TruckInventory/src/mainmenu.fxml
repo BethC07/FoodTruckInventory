@@ -31,8 +31,8 @@
             <children>
                <Button fx:id="btnShow" mnemonicParsing="false" onAction="#handleBtnShow" text="Show Inventory" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                <Button fx:id="btnMod" mnemonicParsing="false" onAction="#handleBtnMod" text="Modify Inventory" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-               <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#handleBtnAdd" text="Add Item" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-               <Button fx:id="btnRemove" mnemonicParsing="false" onAction="#handleBtnRemove" text="Remove Item" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+               <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#handleBtnAdd" text="Add Inventory Item" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+               <Button fx:id="btnRemove" mnemonicParsing="false" onAction="#handleBtnRemove" text="Remove Inventory Item" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                <Button fx:id="btnExit" mnemonicParsing="false" onAction="#handleBtnExit" text="Exit Menu" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Food Truck Inventory System" wrappingWidth="184.13671875" GridPane.rowIndex="1" />
                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Please choose from one of the following menu options" textAlignment="CENTER" wrappingWidth="160.88671875" GridPane.columnIndex="1" GridPane.rowIndex="1" />
