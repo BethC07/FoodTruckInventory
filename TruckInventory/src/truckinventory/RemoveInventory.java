@@ -99,40 +99,44 @@ public class RemoveInventory extends JFrame{
                 }
                 // check if the quantity and restock threshold are numeric values
                 else{
-                    String rName = newSelection;
-                    Inventory tempInventory = null;
-                    FileWriter fw = null; 
-                    BufferedWriter bw = null; 
-                    PrintWriter pw = null; 
-                    
-                    for ( int ct = 0; ct < SupplyList.size(); ct++) {
-                        tempInventory = SupplyList.get(ct);
-                        if(tempInventory.getItem().equalsIgnoreCase(rName)){
-                            SupplyList.remove(ct);
-                            message = "The item '" + rName + "' was successfully removed from the inventory.";
-                            //message = "Item was removed from the inventory.";
-                        
-                            try{
-                                fw = new FileWriter("Inventory.txt", false); 
-                                bw = new BufferedWriter(fw); 
-                                pw = new PrintWriter(bw);
-                                Inventory wSupply = null;
-                                String wItem, wRestockDate;
-                                int wQuantity, wRestockThreshold;
-                                for ( int cnt=0; cnt<SupplyList.size();  cnt++) {
-                                    wSupply = SupplyList.get(cnt);
-                                    wItem = wSupply.getItem();
-                                    wQuantity = wSupply.getQuantity();
-                                    wRestockThreshold = wSupply.getRestockThreshold();
-                                    wRestockDate = wSupply.getRestockDate();                                     
-                                    pw.print(wItem + "," + wQuantity + "," + wRestockThreshold + "," + wRestockDate + "\n");
-                                }  
-                                pw.close();
+                    // verify the user wants to remove the item
+                    int verify = JOptionPane.showConfirmDialog(null, "Are you sure you want to remove the item '" + newSelection + "'?", "Confirmation - Remove Inventory Item", JOptionPane.YES_NO_OPTION);
+                    if(verify == JOptionPane.YES_OPTION){
+                        String rName = newSelection;
+                        Inventory tempInventory = null;
+                        FileWriter fw = null; 
+                        BufferedWriter bw = null; 
+                        PrintWriter pw = null; 
+
+                        for ( int ct = 0; ct < SupplyList.size(); ct++) {
+                            tempInventory = SupplyList.get(ct);
+                            if(tempInventory.getItem().equalsIgnoreCase(rName)){
+                                SupplyList.remove(ct);
+                                message = "The item '" + rName + "' was successfully removed from the inventory.";
+                                //message = "Item was removed from the inventory.";
+
+                                try{
+                                    fw = new FileWriter("Inventory.txt", false); 
+                                    bw = new BufferedWriter(fw); 
+                                    pw = new PrintWriter(bw);
+                                    Inventory wSupply = null;
+                                    String wItem, wRestockDate;
+                                    int wQuantity, wRestockThreshold;
+                                    for ( int cnt=0; cnt<SupplyList.size();  cnt++) {
+                                        wSupply = SupplyList.get(cnt);
+                                        wItem = wSupply.getItem();
+                                        wQuantity = wSupply.getQuantity();
+                                        wRestockThreshold = wSupply.getRestockThreshold();
+                                        wRestockDate = wSupply.getRestockDate();                                     
+                                        pw.print(wItem + "," + wQuantity + "," + wRestockThreshold + "," + wRestockDate + "\n");
+                                    }  
+                                    pw.close();
+                                    JOptionPane.showMessageDialog( null, message);
+                                    frame.dispose();
+                                }catch(IOException io){
+                                message = "Unable to find Inventory.txt";
                                 JOptionPane.showMessageDialog( null, message);
-                                frame.dispose();
-                            }catch(IOException io){
-                            message = "Unable to find Inventory.txt";
-                            JOptionPane.showMessageDialog( null, message);
+                                }
                             }
                         }
                     }
