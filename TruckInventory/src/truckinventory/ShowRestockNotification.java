@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JDialog;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -95,18 +96,31 @@ public class ShowRestockNotification extends JFrame{
                 itemName = ((String)((JButton)acceptB).getClientProperty( "name" ));
                 quantity = ((Integer)((JButton)acceptB).getClientProperty( "quantity" ));
                 restockThreshold = ((Integer)((JButton)acceptB).getClientProperty( "restock" ));
+                
                 try {
-                    String ogItemInfo = item.getItem() + "," + item.getQuantity() + "," + item.getRestockThreshold() + "," + item.getRestockDate();
-                    RestockInventory updateItem = new RestockInventory();
-                    updateItem.restock(item, ogItemInfo);
-                    message = "Item '" + itemName + "' was successfully restocked to " + item.getQuantity();
-                    JOptionPane.showMessageDialog(null, message);
-                    frame.dispose();
+                    // ask the user for a restock value
+                    String restockValue = (String)JOptionPane.showInputDialog(frame, "Please enter the quantity you would like " + itemName + " restocked to.\nThe default restock value is 10."
+                            , "Restock value", JOptionPane.PLAIN_MESSAGE, null, null, 10);
+                    if(restockValue != null && restockValue.length() > 0){
+                        int restockValueNumb = Integer.parseInt(restockValue);
+                        String ogItemInfo = item.getItem() + "," + item.getQuantity() + "," + item.getRestockThreshold() + "," + item.getRestockDate();
+                        RestockInventory updateItem = new RestockInventory();
+                        updateItem.restock(item, ogItemInfo, restockValueNumb);
+                        message = "Item '" + itemName + "' was successfully restocked to " + item.getQuantity();
+                        JOptionPane.showMessageDialog(null, message);
+                        frame.dispose();
+                    }
                 }
                 catch (Exception e){
-                    message = "Error occured during restock operation";
+                    System.out.println(e.toString());
+                    if(e.toString().contains("java.lang.NumberFormatException")){
+                        message = "Please enter a numeric value for the restock quantity";
+                    }
+                    else{
+                        message = "Error occured during restock operation";
+                    }
                     JOptionPane.showMessageDialog( null, message);
-                    frame.dispose();
+                    //frame.dispose();
                 }
             }
         });
