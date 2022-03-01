@@ -44,7 +44,7 @@ public class ShowRestockNotification extends JFrame{
         Container contents;
         
     
-        frame = new JFrame();
+        frame = new JFrame("Restock Item Notification");
 	// Create text fields, labels and submit button for user to enter the new item data
 	nameL = new JLabel("This item has a low stock: " + item.getItem());
         currentQuantityL = new JLabel("Quantity on hand: " + item.getQuantity());
