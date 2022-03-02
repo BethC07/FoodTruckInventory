@@ -47,7 +47,7 @@ public class UpdateInventory extends JFrame{
         items.setEditable(false);
         instructions = new JLabel("Enter an item or select one from the list");
         
-	// Create text fields, labels and submit button for user to enter the new item data
+	// Create text fields, labels and submit button for user to update an item
         currentName = new JTextField();
         currentName.setEditable(false);
         currentQuantity = new JTextField();
@@ -71,13 +71,13 @@ public class UpdateInventory extends JFrame{
 	// Set a grid layout for all the fields
 	contents.setLayout(new GridLayout(4,2));
         
-        // Create panel 1 for the drop down menu of items
+        // Create panel 1 for the drop down menu of items and instructions
         JPanel p1 = new JPanel();
         p1.setLayout(new GridLayout(2,0));
         p1.add(instructions);
 	p1.add(items);
         
-        // Create panel 2 for the labels and text fields
+        // Create panel 2 for the current item value labels and text fields
         JPanel p2 = new JPanel();
 	p2.setLayout(new GridLayout(3,2));	 
 	p2.add(currentNameL);
@@ -87,7 +87,7 @@ public class UpdateInventory extends JFrame{
         p2.add(currentRestockThresholdL);
         p2.add(currentRestockThreshold);
         
-        // Create panel 2 for the labels and text fields
+        // Create panel 3 for the update item value labels and text fields
         JPanel p3 = new JPanel();
 	p3.setLayout(new GridLayout(3,2));	 
 	p3.add(newNameL);
@@ -97,12 +97,12 @@ public class UpdateInventory extends JFrame{
         p3.add(newRestockThresholdL);
         p3.add(newRestockThreshold);
         
-        // Create panel 3 for the submit button
+        // Create panel 4 for the submit button
         JPanel p4 = new JPanel();
 	p4.setLayout(new GridLayout(2,0));	 
 	p4.add(submit);
         
-	// Add both panels to Content Pane
+	// Add all panels to Content Pane
         contents.add(p1, BorderLayout.CENTER);
         contents.add(p2, BorderLayout.CENTER);
         contents.add(p3, BorderLayout.CENTER);
@@ -115,13 +115,15 @@ public class UpdateInventory extends JFrame{
         // Show Frame
         frame.setVisible(true);
         
+        // Action listener for the items dropdown
+        // Sets a string value to the selected item
+        // Also populates the current item's data in the current read only fields
         items.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
                 JComboBox cb = (JComboBox)e.getSource();
                 String newSelection = (String)cb.getSelectedItem();
                 currentOption = newSelection;
-                
                 
                 ArrayList<Inventory> SupplyList = new ArrayList<>();
                 SupplyList = ShowInventory.readData();
@@ -143,22 +145,27 @@ public class UpdateInventory extends JFrame{
             }
         });
         
+        // Action listener for the Submit button
+        // Updates an item depending on what value(s) were populated on the form 
+        // in the array as well as the text file if it passed the following checks:
+        // - An item is selected from the drop down
+        // - At least one update field value is populated
+        // - If the quantity or restockthreshold updated value is populated, it's numeric
         submit.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent ae) {
                // check if an item was selected to be updated
                if(currentOption == "") {
                     message = "Please select an item to update from the dropdown to submit";
-                    JOptionPane.showMessageDialog(null, message);
+                    JOptionPane.showMessageDialog(frame, message, null, JOptionPane.ERROR_MESSAGE);
                }
-               // check if all the fields are populated
+               // check if at least one updated field is populated
                else if((newName.getText() == null || newName.getText().length() == 0) && 
                        (newQuantity.getText() == null || newQuantity.getText().length() == 0) && 
                        (newRestockThreshold.getText() == null || newRestockThreshold.getText().length() == 0)) {
                    message = "Please fill out at least one field to submit an update to an item";
-                   JOptionPane.showMessageDialog(null, message);
+                   JOptionPane.showMessageDialog(frame, message, null, JOptionPane.ERROR_MESSAGE);
                }
-               
                // check if the quantity and restock threshold are numeric values
                else{
                    try{
@@ -170,7 +177,7 @@ public class UpdateInventory extends JFrame{
                        }
                        
                        // update the item selected with the new values to the Inventory array list 
-                       // and append updated item to the inventory.txt file if both checks pass
+                       // and append updated item to the Inventory.txt file if all checks pass
                        ArrayList<Inventory> SupplyList = new ArrayList<>();
                        SupplyList = ShowInventory.readData();
                        Inventory tempInventory;
@@ -195,13 +202,15 @@ public class UpdateInventory extends JFrame{
                    }
                    catch(NumberFormatException nfe){
                        message = "The Updated Quantity and Updated Restock Threshold values must be numeric to submit an update to an item";
-                       JOptionPane.showMessageDialog(null, message);
+                       JOptionPane.showMessageDialog(frame, message, null, JOptionPane.ERROR_MESSAGE);
                    }
                }
            }
        });
     }
     
+    // function to update the item's data depending on what was populated on the form
+    // and append the new data to the Inventory.txt file
     public void update(Inventory item, String ogInfo){
         if(newName.getText().length() != 0){
             item.setItem(newName.getText());
