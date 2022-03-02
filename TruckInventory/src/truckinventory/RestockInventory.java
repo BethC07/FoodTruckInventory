@@ -20,11 +20,13 @@ public class RestockInventory {
     
     String message;
     
+    // function to update the quantity of an item when the user decides to restock it
     public void restock(Inventory item, String ogInfo, int restockValue){
         item.setQuantity(restockValue);
         updateTime(item, ogInfo);
     }
     
+    // function to update the last restock date/time of an item when the user decides to restock it
     public void updateTime(Inventory item, String ogInfo){
         LocalDateTime today = LocalDateTime.now();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -33,6 +35,7 @@ public class RestockInventory {
         appendInventoryFile(item, ogInfo);
     }
     
+    // function to update the Inventory.txt file with the updated item data
     public void appendInventoryFile(Inventory item, String ogInfo){
         // append to file
         try{
@@ -50,6 +53,7 @@ public class RestockInventory {
             String itemInfo = buffer.toString();
             file.close();
 
+            // get the updated item data after all the modifications were made to it and replace it in the original string
             newItemInfo = item.getItem() + "," + item.getQuantity() + "," + item.getRestockThreshold() + "," + item.getRestockDate();
             itemInfo = itemInfo.replaceAll(oldItemInfo, newItemInfo);
             
@@ -64,8 +68,7 @@ public class RestockInventory {
         }
         catch(IOException io){
             message = "Unable to find Inventory.txt";
-            JOptionPane.showMessageDialog(null, message);
+            JOptionPane.showMessageDialog(null, message, null, JOptionPane.ERROR_MESSAGE);
         }
     }
-    
 }
