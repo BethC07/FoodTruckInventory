@@ -68,6 +68,11 @@ public class AddInventory extends JFrame{
         // Show Frame
         frame.setVisible(true);
         
+        // Action listener for the Submit button
+        // Add the new item to the array as well as the text file if it passed the following checks:
+        // - All fields must be populated
+        // - Item must be new to the inventory
+        // - Quantity and restock threshold must be integer values
          submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -76,66 +81,68 @@ public class AddInventory extends JFrame{
                         currentQuantity.getText() == null || currentQuantity.getText().length() == 0 || 
                         restockThreshold.getText() == null || restockThreshold.getText().length() == 0) {
                     message = "Please fill out all the fields to submit a new item";
-                    JOptionPane.showMessageDialog(null, message);
+                    JOptionPane.showMessageDialog(frame, message, null, JOptionPane.ERROR_MESSAGE);
                 }
-                // check if the item entered already exists in the inventory
-                SupplyList = ShowInventory.readData();
-                Inventory tempInventory = null;
-                String allItems = "";
-                for ( int ct = 0; ct < SupplyList.size(); ct++) {
-                    tempInventory = SupplyList.get(ct);
-                    allItems += tempInventory.getItem().toLowerCase() + ",";
-                }
-                if(allItems.contains(name.getText().toLowerCase()) && name.getText().length() != 0){
-                    message = "The item '" + name.getText() + "' already exists in the inventory.\n"
-                            + "Please go back to the main menu and select 'Modify Inventory' if you wish to update this item.";
-                    JOptionPane.showMessageDialog(null, message);
-                }
-                // check if the quantity and restock threshold are numeric values
-                else if(name.getText().length() != 0){
-                    try{
-                        int currentQuantityNumb = Integer.parseInt(currentQuantity.getText());
-                        int restockThresholdNumb = Integer.parseInt(restockThreshold.getText());
+                else{
+                    // check if the item entered already exists in the inventory
+                    SupplyList = ShowInventory.readData();
+                    Inventory tempInventory = null;
+                    String allItems = "";
+                    for ( int ct = 0; ct < SupplyList.size(); ct++) {
+                        tempInventory = SupplyList.get(ct);
+                        allItems += tempInventory.getItem().toLowerCase() + ",";
+                    }
+                    if(allItems.contains(name.getText().toLowerCase()) && name.getText().length() != 0){
+                        message = "The item '" + name.getText() + "' already exists in the inventory.\n"
+                                + "Please go back to the main menu and select 'Modify Inventory' if you wish to update this item.";
+                        JOptionPane.showMessageDialog(frame, message, null, JOptionPane.WARNING_MESSAGE);
+                    }
+                    // check if the quantity and restock threshold are numeric values
+                    else if(name.getText().length() != 0){
+                        try{
+                            int currentQuantityNumb = Integer.parseInt(currentQuantity.getText());
+                            int restockThresholdNumb = Integer.parseInt(restockThreshold.getText());
 
-                        // add new item to the Inventory array list 
-                        // and append new item to the inventory.txt file if both checks pass
-                        FileWriter fw = null; 
-                        BufferedWriter bw = null; 
-                        PrintWriter pw = null; 
-                        try {
-                            // add new item to the Inventory array list
-                            Inventory newItem = new Inventory(name.getText(), currentQuantityNumb, restockThresholdNumb, "");
-                            SupplyList.add(newItem);
+                            // add new item to the Inventory array list 
+                            // and append new item to the inventory.txt file if all checks pass
+                            FileWriter fw = null; 
+                            BufferedWriter bw = null; 
+                            PrintWriter pw = null; 
+                            try {
+                                // add new item to the Inventory array list
+                                Inventory newItem = new Inventory(name.getText(), currentQuantityNumb, restockThresholdNumb, "");
+                                SupplyList.add(newItem);
 
-                            // append to file
-                            fw = new FileWriter("Inventory.txt", true); 
-                            bw = new BufferedWriter(fw); 
-                            pw = new PrintWriter(bw);
-                            pw.println(name.getText() + "," + currentQuantity.getText() + "," + restockThreshold.getText() + "," + "NA");
-                            message = "New item '" + name.getText() + "' was successfully added to your truck's inventory";
-                            JOptionPane.showMessageDialog(null, message);
-                            pw.flush();
-                            frame.dispose();
-                        }
-                        catch(IOException io){
-                            message = "Unable to find Inventory.txt";
-                            JOptionPane.showMessageDialog( null, message);
-                        }
-                        finally { 
-                            try { 
-                                pw.close();
-                                bw.close();
-                                fw.close(); 
-                            } 
-                            catch (IOException io) {
+                                // append to file
+                                fw = new FileWriter("Inventory.txt", true); 
+                                bw = new BufferedWriter(fw); 
+                                pw = new PrintWriter(bw);
+                                pw.println(name.getText() + "," + currentQuantity.getText() + "," + restockThreshold.getText() + "," + "NA");
+                                message = "New item '" + name.getText() + "' was successfully added to your truck's inventory";
+                                JOptionPane.showMessageDialog(null, message);
+                                pw.flush();
+                                frame.dispose();
+                            }
+                            catch(IOException io){
                                 message = "Unable to find Inventory.txt";
-                                JOptionPane.showMessageDialog( null, message);
+                                JOptionPane.showMessageDialog(frame, message, null, JOptionPane.ERROR_MESSAGE);
+                            }
+                            finally { 
+                                try { 
+                                    pw.close();
+                                    bw.close();
+                                    fw.close(); 
+                                } 
+                                catch (IOException io) {
+                                    message = "Unable to find Inventory.txt";
+                                    JOptionPane.showMessageDialog(frame, message, null, JOptionPane.ERROR_MESSAGE);
+                                }
                             }
                         }
-                    }
-                    catch(NumberFormatException nfe){
-                        message = "The Quantity and Restock Threshold values must be numeric to submit a new item";
-                        JOptionPane.showMessageDialog(null, message);
+                        catch(NumberFormatException nfe){
+                            message = "The Quantity and Restock Threshold values must be numeric to submit a new item";
+                            JOptionPane.showMessageDialog(frame, message, null, JOptionPane.ERROR_MESSAGE);
+                        }
                     }
                 }
             }
