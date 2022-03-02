@@ -4,7 +4,6 @@
  */
 package truckinventory;
 
-
 import java.io.IOException;
 import java.net.URL;
 import javafx.scene.Scene;
@@ -23,7 +22,6 @@ public class InputClass {
         loader.setLocation(xmlUrl);
         Scene root = loader.load();
                 
-        //Scene scene= new Scene(root, 500, 600);
         return root;
     }
 }
