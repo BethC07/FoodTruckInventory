@@ -24,52 +24,37 @@ public class ShowInventory extends JFrame {
     
     public ShowInventory(){
         frame = new JFrame("Current Inventory");
-        //
+
 	// Create Message Area
-	//
 	messageArea = new JTextArea();
 	messageArea.setFont(new Font("Serif", Font.ITALIC, 16));
-	//messageArea.setLineWrap(true);
-	//messageArea.setWrapStyleWord(true);
-	//messageArea.setPreferredSize(new Dimension(600, 200));
 	JScrollPane scrollPane = new JScrollPane(messageArea);    
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);	
-        scrollPane.setPreferredSize(new Dimension(600,200));    
-        //
+        scrollPane.setPreferredSize(new Dimension(750,300));    
+
 	// Create get Content Pane holder
-	//
 	contents = getContentPane( );
-	//
+        
 	// Set Layout
-	//
 	contents.setLayout(new BorderLayout());
         
         JPanel p1 = new JPanel();
-	p1.setLayout(new FlowLayout());
-	//p2.add(messageArea);	 
+	p1.setLayout(new FlowLayout()); 
 	p1.add(scrollPane);
         
-        //
 	// Add Panels to Content Pane
-	//
         contents.add (p1, BorderLayout.CENTER);
-        
-        //setSize(700, 400);
-        //
-        // Show Frame
-        //
-        //setVisible(true);
         
         frame.setContentPane(contents);
         frame.pack();
-        frame.setSize(700, 300);
+        frame.setSize(850, 400);
 
         // Show Frame
         frame.setVisible(true);
         
         SupplyList = readData();
         
-        message = "\n";
+        message = "";
         
         Inventory rInventory = null;
         for ( int ct=0; ct<SupplyList.size();  ct++) {
@@ -81,60 +66,52 @@ public class ShowInventory extends JFrame {
         messageArea.setText(message);
         // make sure the text area is not editable
         messageArea.setEditable(false);
-        
     }
     
-   public static ArrayList readData(){
+    // function to create an array of inventory items from the Inventory.txt file
+    public static ArrayList readData(){
        ArrayList<Inventory> TempList = new ArrayList<>( );
        Scanner file = null;
        String item, restockDate, message;
        int quantity, restockThreshold;
        try{
-	        
-            file = new Scanner( new File ( "Inventory.txt" ) );   //insert file path       
-	    while ( file.hasNext( ) ) // test for the end of the file
-	        {
-	            // read a line
-	            String stringRead = file.nextLine( );
-	            //
-	            //Notice the StringTokenizer is using the comma as delimiter
-	            //between data values
-	            //
-	
-	             // process the line read
-	            StringTokenizer st = new StringTokenizer( stringRead, "," );
-	            item = st.nextToken( );
-	            quantity = Integer.parseInt(st.nextToken( ));
-                    restockThreshold = Integer.parseInt(st.nextToken( ));
-                    restockDate = st.nextToken( );
-	            try {
+           file = new Scanner( new File ( "Inventory.txt" ) );   //insert file path       
+	   while ( file.hasNext( ) ) // test for the end of the file
+	   {
+               // read a line
+               String stringRead = file.nextLine( );
 
-	                Inventory supply = new Inventory(item, quantity, restockThreshold, restockDate);
-	                TempList.add(supply);
-	            }//End Second Try{}
-	            //
-	            //Catch Numeric DataType Error
-	            //
-	             catch ( NumberFormatException nfe )
-	           {
-	            	 message = "Error in supply record: "
-	                                              + stringRead
-	                                              + "; record ignored" ;	
-	            	 JOptionPane.showMessageDialog( null, message);
-	           }
-	          }//End While
-    		}//End First Try{}
-			catch ( FileNotFoundException fnfe )    	
-	        {
-	        	message = "Unable to find Inventory.txt";
-	        	JOptionPane.showMessageDialog( null, message);
-	        }
-		 
-			finally {
-	       // Release resources associated with books.txt
-	          file.close( ); 	      
-	        }
+               //Notice the StringTokenizer is using the comma as delimiter between data values
+               // process the line read
+               StringTokenizer st = new StringTokenizer( stringRead, "," );
+               item = st.nextToken( );
+               quantity = Integer.parseInt(st.nextToken( ));
+               restockThreshold = Integer.parseInt(st.nextToken( ));
+               restockDate = st.nextToken( );
+               try {
+                   
+                   Inventory supply = new Inventory(item, quantity, restockThreshold, restockDate);
+                   TempList.add(supply);
+               }//End Second Try{}
+               //Catch Numeric DataType Error
+               catch ( NumberFormatException nfe )
+               {
+                   message = "Error in supply record: "
+                           + stringRead
+                           + "; record ignored" ;	
+                   JOptionPane.showMessageDialog(null, message, null, JOptionPane.ERROR_MESSAGE);
+               }
+	    }//End While
+        }//End First Try{}
+        catch ( FileNotFoundException fnfe )    	
+        {
+            message = "Unable to find Inventory.txt";
+            JOptionPane.showMessageDialog(null, message, null, JOptionPane.ERROR_MESSAGE);
+        }
+        finally {
+           // Release resources associated with books.txt
+           file.close( ); 	      
+        }
        return TempList;
-   }
-            
+   }   
 }
