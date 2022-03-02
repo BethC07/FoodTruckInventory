@@ -13,11 +13,10 @@ import java.io.*;
 
 /**
  *
- * @author toten
+ * @author nuria
  */
 public class RemoveInventory extends JFrame{
     private JFrame frame;
-    //private JTextField name;
     private JComboBox items;
     private String[] itemOptions;
     private JLabel nameL;
@@ -29,12 +28,7 @@ public class RemoveInventory extends JFrame{
     ArrayList<Inventory> SupplyList = new ArrayList<>( );
     
     public RemoveInventory(){
-        SupplyList = ShowInventory.readData();
-        
-        
         frame = new JFrame("Remove Inventory Item");
-	// Create text fields, labels and submit button for user to enter the new item data
-	//name = new JTextField();
         // Create a dropdown field to select from the existing items
         SupplyList = ShowInventory.readData();
         Inventory rInventory = null;
@@ -49,6 +43,7 @@ public class RemoveInventory extends JFrame{
         items = new JComboBox(itemOptions);
         items.setEditable(false);
         
+        // Create label and submit button for user to remove an item
         nameL = new JLabel("Item to remove: ");
         submit = new JButton("Submit");
         
@@ -57,12 +52,11 @@ public class RemoveInventory extends JFrame{
 	// Set a grid layout for all the fields
 	contents.setLayout(new GridLayout(4,2));
         
-        // Create panel 1 for the labels and text fields
+        // Create panel 1 for the label and dropdown fields
         JPanel p1 = new JPanel();
 	p1.setLayout(new GridLayout(3,2));	 
 	p1.add(nameL);
         p1.add(items);
-        //p1.add(name);
         
         // Create panel 2 for the submit button
         JPanel p2 = new JPanel();
@@ -80,6 +74,8 @@ public class RemoveInventory extends JFrame{
         // Show Frame
         frame.setVisible(true);
         
+        // Action listener for the items dropdown
+        // Sets a string value to the selected item
         items.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -89,17 +85,20 @@ public class RemoveInventory extends JFrame{
             }
         });
         
+        // Action listener for the Submit button
+        // Removes an item from the array as well as the text file if it passed the following checks:
+        // - An item is selected from the drop down
+        // - User confirms they want to remove the item
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                // check if all the fields are populated
+                // check if an item was selected
                 if(currentOption == "") {
                     message = "Please select an item to remove from the dropdown to submit";
-                    JOptionPane.showMessageDialog(null, message);
+                    JOptionPane.showMessageDialog(frame, message, null, JOptionPane.ERROR_MESSAGE);
                 }
-                // check if the quantity and restock threshold are numeric values
                 else{
-                    // verify the user wants to remove the item
+                    // verify the user wants to remove the item with a confirmation window
                     int verify = JOptionPane.showConfirmDialog(null, "Are you sure you want to remove the item '" + newSelection + "'?", "Confirmation - Remove Inventory Item", JOptionPane.YES_NO_OPTION);
                     if(verify == JOptionPane.YES_OPTION){
                         String rName = newSelection;
@@ -113,7 +112,6 @@ public class RemoveInventory extends JFrame{
                             if(tempInventory.getItem().equalsIgnoreCase(rName)){
                                 SupplyList.remove(ct);
                                 message = "The item '" + rName + "' was successfully removed from the inventory.";
-                                //message = "Item was removed from the inventory.";
 
                                 try{
                                     fw = new FileWriter("Inventory.txt", false); 
@@ -134,8 +132,8 @@ public class RemoveInventory extends JFrame{
                                     JOptionPane.showMessageDialog( null, message);
                                     frame.dispose();
                                 }catch(IOException io){
-                                message = "Unable to find Inventory.txt";
-                                JOptionPane.showMessageDialog( null, message);
+                                    message = "Unable to find Inventory.txt";
+                                    JOptionPane.showMessageDialog(frame, message, null, JOptionPane.ERROR_MESSAGE);
                                 }
                             }
                         }
