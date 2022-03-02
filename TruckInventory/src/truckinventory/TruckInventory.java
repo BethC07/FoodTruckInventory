@@ -68,6 +68,9 @@ public class TruckInventory extends Application {
         //set up alert for failed login attempts
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         
+        // Action listener for the Submit log in button
+        // if the user authenticates via the logindata.txt file, they are redirected to the apps main menu
+        // a log is also kept of all login attempts (succesful or not) via the ;pg.txt file
         btn.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent e) {
@@ -98,10 +101,11 @@ public class TruckInventory extends Application {
                     actiontarget.setFill(Color.FIREBRICK);
                     actiontarget.setText("Please try again.");
                 }
-                
             }
         });
         
+        // Action listener for the Clear Form button
+        // selecting this will clear the user name and password field
         btn2.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -151,6 +155,7 @@ public class TruckInventory extends Application {
         return isValid;
     }
     
+    // function to add the login attempt data to the log.txt file
     public void logData(String logText){
         File log = new File(logName);
         try{
@@ -161,6 +166,5 @@ public class TruckInventory extends Application {
         }catch(IOException io) {
             System.out.println("File IO Exception" + io.getMessage());
         }
-        
     }
 }
